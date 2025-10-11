@@ -1,0 +1,63 @@
+[project]
+name = "computer-vision"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+     "jupyter",
+     "jupyter-server",
+     "jupyterlab-lsp",
+     "jupyterlab-vim",
+     "matplotlib",
+     "numpy",
+     "pandas",
+     "scikit-learn",
+     "scipy",
+     "timm>=1.0.20",
+     "tqdm",
+]
+
+[project.optional-dependencies]
+cpu = [
+    "torch>=2.8.0",
+    "torchinfo>=1.8.0",
+    "torchvision>=0.23.0",
+]
+amd = [
+    "torch>=2.8.0",
+    "pytorch-triton-rocm>=3.4.0",
+    "torchinfo>=1.8.0",
+    "torchvision>=0.23.0",
+]
+
+[tool.uv]
+conflicts = [
+    [
+      { extra = "cpu" },
+      { extra = "amd" },
+    ],
+]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-rocm", extra="amd" },
+    { index = "pytorch-cpu", extra="cpu" }
+]
+torchvision = [
+    { index = "pytorch-rocm", extra="amd" },
+    { index = "pytorch-cpu", extra="cpu" }
+]
+pytorch-triton-rocm = [
+    { index = "pytorch-rocm", extra="amd" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-rocm"
+url = "https://download.pytorch.org/whl/rocm6.3"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
